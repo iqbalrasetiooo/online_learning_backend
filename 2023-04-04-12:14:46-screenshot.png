@@ -1,0 +1,75 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "LEARNING-APP",
+    "dateExported": "2023-04-23T11:33:04.351Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "f24c1e7b-5259-488c-a217-61c63438f66b",
+            "colId": "0aeddd2c-9316-4214-a855-d163a3fad1f9",
+            "containerId": "",
+            "name": "AUTHENTICATED USER",
+            "url": "localhost:8000/api/user",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-04-23T11:31:54.384Z",
+            "modified": "2023-04-23T11:31:54.384Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "7|8m7M08f7uds9TR9Vp5Ud1EgPoHZH6P5B7g2nNgyA"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"token\": \"5|GnPiXChgVVXHZI0LSL3UUPDK0bZYxFBMoWi21O9z\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "7|8m7M08f7uds9TR9Vp5Ud1EgPoHZH6P5B7g2nNgyA"
+            },
+            "tests": []
+        },
+        {
+            "_id": "5f42d298-cb18-44c9-ba07-2a9b65ffab89",
+            "colId": "0aeddd2c-9316-4214-a855-d163a3fad1f9",
+            "containerId": "",
+            "name": "LOGIN",
+            "url": "localhost:8000/api/users",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-04-23T11:32:05.034Z",
+            "modified": "2023-04-23T11:32:05.034Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\"email_or_username\": \"fiqriilhamsyah09@gmail.com\",\n\"password\": \"12345\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "b0574666-142c-469f-afc4-307d91888332",
+            "colId": "0aeddd2c-9316-4214-a855-d163a3fad1f9",
+            "containerId": "",
+            "name": "REGIST",
+            "url": "localhost:8000/api/users",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-04-23T11:32:18.858Z",
+            "modified": "2023-04-23T11:32:18.858Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"fikri\",\n  \"full_name\": \"Fikri Ilhamsyah\",\n  \"email\" : \"fiqriilhamsyah09@gmail.com\",\n  \"password\": \"12345\",\n  \"gender\": \"F\",\n  \"date_of_birth\": \"2000-09-11\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
