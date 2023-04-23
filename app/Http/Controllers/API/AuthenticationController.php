@@ -38,8 +38,15 @@ class AuthenticationController extends Controller
             'gender' => 'required',
             'full_name' => 'required',
         ]);
-        $request->profile_picture = "asd";
-        
+        $request->profile_picture = "default";
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->getMessageBag(),
+                'data' => null,
+                'error' => null
+            ], Response::HTTP_BAD_REQUEST);
+        }
         try {
             //code...
             DB::beginTransaction();
