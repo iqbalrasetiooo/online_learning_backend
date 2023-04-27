@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('transaction_id');
             $table->string('title');
             $table->text('description');
+            $table->string('image');
             $table->softDeletes();
             $table->timestamps();
         });

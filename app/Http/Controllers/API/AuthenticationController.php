@@ -38,10 +38,10 @@ class AuthenticationController extends Controller
             'gender' => 'required',
             'full_name' => 'required',
         ]);
-        $request->profile_picture = "default";
+        // $request->profile_picture = "default";
         if ($validator->fails()) {
             return response()->json([
-                'success' => false,
+                'result' => false,
                 'message' => $validator->getMessageBag(),
                 'data' => null,
                 'error' => null
@@ -65,7 +65,7 @@ class AuthenticationController extends Controller
             ]);
             DB::commit();
             return response()->json([
-                'success' => true,
+                'result' => true,
                 'message' => 'Success created new user and member',
                 'data' => [
                     'user' => $user,
@@ -76,7 +76,7 @@ class AuthenticationController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json([
-                'success' => false,
+                'result' => false,
                 'message' => 'Failed created new user and member',
                 'data' => [
                     'user' => null,
@@ -115,29 +115,37 @@ class AuthenticationController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'success' => false,
+                'result' => false,
                 'message' => $validator->getMessageBag(),
                 'data' => null,
-                'error' => null
+                'error' => ""
             ], Response::HTTP_BAD_REQUEST);
         }
 
         $user = User::where('email', $request->email_or_username)
-        ->orWhere('name', $request->email_or_username)->first();
+            ->orWhere('name', $request->email_or_username)->first();
+        $profile = Profile::where('user_id', $user->id)
+            ->first();
         if (!Hash::check($request->password,  $user->password)) return response()->json([
-            'success' => false,
+            'result' => false,
             'message' => 'Username, Email or Password Incorrect',
             'data' => null,
-            'error' => null
+            'error' => ""
         ], Response::HTTP_BAD_REQUEST);
         // $authUser = Auth::user();
         $token = $user->createToken('LearningApp')->plainTextToken;
         return response()->json([
-            'success' => true,
+            'result' => true,
             'message' => 'Login Success',
             'token' => $token,
-            'error' => null
-        ], Response::HTTP_BAD_REQUEST);
+            'data' => [
+                'id_user' => $user->id,
+                'email' => $user->email,
+                'name' => $profile->full_name,
+                'role' => $profile->role,
+            ],
+            'error' => ""
+        ], Response::HTTP_OK);
     }
 
     /**

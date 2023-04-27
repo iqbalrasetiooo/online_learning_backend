@@ -3,7 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\PersonalAccessToken;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class CourseController extends Controller
 {
@@ -20,8 +28,52 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'author_id' => 'required',
+            'category_id' => 'required',
+            'member_id' => 'required',
+            'transaction_id' => 'required',
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'result' => false,
+                'message' => $validator->getMessageBag(),
+                'data' => null,
+                'error' => null
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        try {
+            //code...
+            DB::beginTransaction();
+            $member = Course::create([
+                'author_id' => $request->author_id,
+                'category_id' => $request->category_id,
+                'member_id' => $request->member_id,
+                'transaction_id' => $request->transaction_id,
+                'title' => $request->title,
+                'description' => $request->description,
+                'image' => $request->image,
+            ]);
+            DB::commit();
+            return response()->json([
+                'result' => true,
+                'message' => 'Success created new user and member',
+                'data' => $member,
+                'error' => null
+            ], Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'result' => false,
+                'message' => 'Failed created new user and member',
+                'error' => $th->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
+
 
     /**
      * Display the specified resource.

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthenticationController;
+use App\Http\Controllers\API\CourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,6 @@ use App\Http\Controllers\API\AuthenticationController;
 Route::get('user', [AuthenticationController::class, 'show']);
 
 Route::post('users', [AuthenticationController::class, 'register']);
-Route::get('users', [AuthenticationController::class, 'login']);
+Route::post('login', [AuthenticationController::class, 'login']);
+
+Route::post('course/add', [CourseController::class, 'store']);
