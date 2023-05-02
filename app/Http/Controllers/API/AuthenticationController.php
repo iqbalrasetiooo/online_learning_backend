@@ -123,13 +123,13 @@ class AuthenticationController extends Controller
         }
 
         $user = User::where('email', $request->email_or_username)
-        ->orWhere('name', $request->email_or_username)->first();
+            ->orWhere('name', $request->email_or_username)->first();
         if (!Hash::check($request->password,  $user->password)) return response()->json([
             'success' => false,
             'message' => 'Username, Email or Password Incorrect',
             'data' => null,
             'error' => null
-        ], Response::HTTP_BAD_REQUEST);
+        ], Response::HTTP_OK);
         // $authUser = Auth::user();
         $token = $user->createToken('LearningApp')->plainTextToken;
         return response()->json([
