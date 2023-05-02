@@ -129,7 +129,7 @@ class AuthenticationController extends Controller
             'message' => 'Username, Email or Password Incorrect',
             'data' => null,
             'error' => null
-        ], Response::HTTP_OK);
+        ], Response::HTTP_BAD_REQUEST);
         // $authUser = Auth::user();
         $token = $user->createToken('LearningApp')->plainTextToken;
         return response()->json([
@@ -137,7 +137,7 @@ class AuthenticationController extends Controller
             'message' => 'Login Success',
             'token' => $token,
             'error' => null
-        ], Response::HTTP_BAD_REQUEST);
+        ], Response::HTTP_OK);
     }
 
     /**
