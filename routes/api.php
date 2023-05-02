@@ -21,4 +21,4 @@ use App\Http\Controllers\API\AuthenticationController;
 Route::get('user', [AuthenticationController::class, 'show']);
 
 Route::post('users', [AuthenticationController::class, 'register']);
-Route::get('users', [AuthenticationController::class, 'login']);
+Route::post('users', [AuthenticationController::class, 'login']);
