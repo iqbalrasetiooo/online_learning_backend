@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthenticationController;
 use App\Http\Controllers\API\CourseController;
+use App\Http\Controllers\API\VideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,6 @@ Route::post('users', [AuthenticationController::class, 'register']);
 Route::post('login', [AuthenticationController::class, 'login']);
 
 Route::post('course/add', [CourseController::class, 'store']);
+
+Route::post('video/add', [VideoController::class, 'store']);
+Route::delete('video/delete/{id}', [VideoController::class, 'destroy']);
