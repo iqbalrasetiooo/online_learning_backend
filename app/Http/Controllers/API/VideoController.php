@@ -126,6 +126,6 @@ class VideoController extends Controller
             'message' => 'Data berhasil dihapus.',
             'data' => null,
             'error' => null
-        ], Response::HTTP_NO_CONTENT);
+        ], Response::HTTP_OK);
     }
 }
