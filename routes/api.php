@@ -26,6 +26,7 @@ Route::post('users', [AuthenticationController::class, 'register']);
 Route::post('login', [AuthenticationController::class, 'login']);
 
 Route::post('course/add', [CourseController::class, 'store']);
+Route::post('course/category', [CourseController::class, 'category']);
 
 Route::post('video/add', [VideoController::class, 'store']);
 Route::delete('video/delete/{id}', [VideoController::class, 'destroy']);

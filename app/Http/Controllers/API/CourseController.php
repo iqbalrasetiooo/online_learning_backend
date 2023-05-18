@@ -22,6 +22,40 @@ class CourseController extends Controller
     {
         //
     }
+    public function category()
+    {
+        try {
+            return response()->json([
+                'result' => true,
+                'message' => 'Success mengirim category',
+                'data' => [
+                    [
+                        'label' => 'It',
+                        'value' => 1
+                    ],
+                    [
+                        'label' => 'It',
+                        'value' => 2
+                    ],
+                    [
+                        'label' => 'Makanan',
+                        'value' => 3
+                    ],
+                    [
+                        'label' => 'Minuman',
+                        'value' => 4
+                    ]
+                ],
+                'error' => null
+            ], Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'result' => false,
+                'message' => 'Failed created new user and member',
+                'error' => $th->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * Store a newly created resource in storage.
