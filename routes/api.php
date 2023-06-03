@@ -22,6 +22,7 @@ use App\Http\Controllers\API\VideoController;
 //     return response()->json($request->user());
 // });
 Route::get('user', [AuthenticationController::class, 'index']);
+Route::get('user/{id}', [AuthenticationController::class, 'show']);
 
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('login', [AuthenticationController::class, 'login']);

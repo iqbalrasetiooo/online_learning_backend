@@ -58,15 +58,16 @@ class LecturerController extends Controller
             'username' => 'required|unique:users,name,except,id',
             'email' => 'required|email|unique:users,email,except,id',
             'password' => 'required|min:5',
-            'date_of_birth' => 'date',
-            'gender' => '',
             'full_name' => '',
+            'date_of_birth' => 'nullable',
+            'gender' => 'nullable',
             'id_lecturer' => 'nullable',
             'highest_education' => 'nullable',
             'teaching_experience' => 'nullable',
             'education_history' => 'nullable',
             'contact_address' => 'nullable',
             'short_bio' => 'nullable',
+            'imageUrl' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable'
         ]);
         // $request->profile_picture = "default";
         if ($validator->fails()) {
@@ -97,6 +98,7 @@ class LecturerController extends Controller
                 'education_history' => $request->education_history,
                 'contact_address' => $request->contact_address,
                 'short_bio' => $request->short_bio,
+                'image_url' => $request->image_url->move(public_path('image')),
                 'role' => 'LECTURER'
             ]);
             DB::commit();
