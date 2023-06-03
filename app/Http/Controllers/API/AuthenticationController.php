@@ -21,15 +21,16 @@ class AuthenticationController extends Controller
     public function index()
     {
         //
+        $user = User::all();
+        return response()->json(['message' => 'success', 'data' => $user]);
     }
+   
 
-    /**
-     * Store a newly created resource in storage.
+     /**
+     * Update new user data.
      */
-    public function register(Request $request)
+    public function updateUser(Request $request, string $id)
     {
-        //
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'username' => 'required|unique:users,name,except,id',
             'email' => 'required|email|unique:users,email,except,id',
@@ -50,8 +51,73 @@ class AuthenticationController extends Controller
         try {
             //code...
             DB::beginTransaction();
+            $user = User::findOrFail($id);
+            $member = Profile::where('user_id', $id)->get();
             $user = User::create([
-                'name' => $request->username,
+                'name' => $request->full_name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
+            ]);
+            $member = Profile::create([
+                'user_id' => $user->id,
+                'full_name' => $request->full_name,
+                'date_of_birth' => $request->date_of_birth,
+                'gender' => $request->gender,
+                'profil_picture' => $request->profile_picture,
+                'role' => 'STUDENT'
+            ]);
+            DB::commit();
+            return response()->json([
+                'result' => true,
+                'message' => 'Success update user and member',
+                'data' => [
+                    'user' => $user,
+                    'member' => $member,
+                ],
+                'error' => null
+            ], Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'result' => false,
+                'message' => 'Failed update user and member',
+                'data' => [
+                    'user' => null,
+                    'member' => null,
+                ],
+                'error' => $th->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function register(Request $request)
+    {
+        
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|unique:users,name,except,id',
+            'email' => 'required|email|unique:users,email,except,id',
+            'password' => 'required|min:5',
+            // 'date_of_birth' => 'date',
+            // 'gender' => 'required',
+            // 'full_name' => 'required',
+        ]);
+        // $request->profile_picture = "default";
+        if ($validator->fails()) {
+            return response()->json([
+                'result' => false,
+                'message' => $validator->getMessageBag(),
+                'data' => null,
+                'error' => null
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        try {
+            //code...
+            DB::beginTransaction();
+            $user = User::create([
+                'name' => $request->full_name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
@@ -90,16 +156,28 @@ class AuthenticationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(Request $request, $id)
     {
-        //
-        // $token = Hash::make($request->header('Authorization'));
-        // dd($token);
-        // $userToken = PersonalAccessToken::findToken($token);
-        // dd($userToken);
-        // $user = $userToken->tokenable;
-        // return $user;
-        return auth('sanctum')->user()->profile;
+          // Temukan pengguna berdasarkan ID yang diberikan
+          $user = User::findOrFail($id);
+          $profile = Profile::where('user_id', $id)->get();
+          try {
+            // Berikan respons atau kembalikan data pengguna dalam format JSON
+            return response()->json([
+                'message' => 'Data pengguna berhasil diambil',
+                'data' => [
+                    'user' => $user,
+                    'profile' => $profile,
+                ]
+            ], Response::HTTP_OK);
+          } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'message' => 'Pengguna tidak ditemukan',
+                'data' => null,
+                'error' => $th->getMessage()
+              ], Response::HTTP_BAD_REQUEST);
+          }        
     }
 
     /**

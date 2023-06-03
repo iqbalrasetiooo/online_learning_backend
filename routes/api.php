@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthenticationController;
 use App\Http\Controllers\API\CourseController;
+use App\Http\Controllers\API\LecturerController;
 use App\Http\Controllers\API\VideoController;
 
 /*
@@ -20,10 +21,14 @@ use App\Http\Controllers\API\VideoController;
 // Route::get('/user', function (Request $request) {
 //     return response()->json($request->user());
 // });
-Route::get('user', [AuthenticationController::class, 'show']);
+Route::get('user', [AuthenticationController::class, 'index']);
+Route::get('user/{id}', [AuthenticationController::class, 'show']);
 
-Route::post('users', [AuthenticationController::class, 'register']);
+Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('login', [AuthenticationController::class, 'login']);
+
+Route::get('lecturer', [LecturerController::class, 'index']);
+Route::post('lecturer/add', [LecturerController::class, 'createLecturer']);
 
 Route::post('course/add', [CourseController::class, 'store']);
 Route::post('course/category', [CourseController::class, 'category']);
