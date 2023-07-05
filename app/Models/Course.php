@@ -16,7 +16,7 @@ class Course extends Model
 
     public function member()
     {
-        return $this->hasOne(Member::class);
+        return $this->hasMany(Member::class);
     }
 
     public function author()

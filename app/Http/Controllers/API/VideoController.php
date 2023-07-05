@@ -55,7 +55,6 @@ class VideoController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
         try {
-
             $video = new Video;
             $video->course_id = $request->course_id;
             $video->author_id = $request->author_id;
@@ -67,17 +66,15 @@ class VideoController extends Controller
             $video->save();
             return response()->json([
                 'result' => true,
-                'message' => 'Success created new user and member',
+                'message' => 'Success created new video',
                 'data' => $video,
-
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             return response()->json([
                 'result' => false,
                 'message' => 'failed',
-                'data' => "",
+                'data' => null,
                 'error' => $th->getMessage()
-
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
