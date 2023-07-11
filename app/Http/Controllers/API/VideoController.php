@@ -34,10 +34,7 @@ class VideoController extends Controller
         $validator = Validator::make($request->all(), [
             'course_id' => 'required',
             'author_id' => 'required',
-            'thumbnail' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'video' => 'required',
+            'video_id' => 'required',
         ], [
             'required' => 'Field :attribute harus diisi.'
         ]);
