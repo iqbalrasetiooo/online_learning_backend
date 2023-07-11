@@ -289,8 +289,6 @@ class AuthenticationController extends Controller
 
         $user = User::where('email', $request->email_or_username)
             ->orWhere('name', $request->email_or_username)->first();
-        $profile = Profile::where('user_id', $user->id)
-            ->first();
         if (!Hash::check($request->password,  $user->password)) return response()->json([
             'result' => false,
             'message' => 'Username, Email or Password Incorrect',
@@ -303,13 +301,7 @@ class AuthenticationController extends Controller
             'result' => true,
             'message' => 'Login Success',
             'token' => $token,
-            'data' => [
-                'id_user' => $user->id,
-                'email' => $user->email,
-                'name' => $profile->full_name,
-                'role' => $profile->role,
-            ],
-            'error' => ""
+            'error' => null
         ], Response::HTTP_OK);
     }
 
